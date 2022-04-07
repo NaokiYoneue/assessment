@@ -13,14 +13,29 @@ assessmentButton.onclick = () => {
 
   // 診断結果表示エリアの作成
   resultDivided.innerText = '';
-  const header = document.createElement('h3');
-  header.innerText = '診断結果';
-  resultDivided.appendChild(header);
+  
+  // headerDivided の作成
+  const headerDivided = document.createElement('div');
+  headerDivided.setAttribute('class', 'card-header');
+  headerDivided.innerText = '診断結果';
+
+  // bodyDivided の作成
+  const bodyDivided = document.createElement('div');
+  bodyDivided.setAttribute('class', 'card-body');
 
   const paragraph = document.createElement('p');
+  paragraph.setAttribute('class', 'card-text');
   const result = assessment(userName);
   paragraph.innerText = result;
-  resultDivided.appendChild(paragraph);
+  bodyDivided.appendChild(paragraph);
+
+  // resultDivided に Bootstrap のスタイルを適用する
+  resultDivided.setAttribute('class', 'card');
+  resultDivided.setAttribute('style', 'max-width: 700px;')
+
+  // headerDivided と bodyDivided を resultDivided に差し込む
+  resultDivided.appendChild(headerDivided);
+  resultDivided.appendChild(bodyDivided);
 
   // ツイートエリアの作成
   tweetDivided.innerText = '';
@@ -57,7 +72,8 @@ const answers = [
   '{userName}のいいところは好奇心です。新しいことに向かっていく{userName}の心構えが多くの人に魅力的に映ります。',
   '{userName}のいいところは気配りです。{userName}の配慮が多くの人を救っています。',
   '{userName}のいいところはその全てです。ありのままの{userName}自身がいいところなのです。',
-  '{userName}のいいところは自制心です。やばいと思ったときにしっかりと衝動を抑えられる{userName}が皆から評価されています。'
+  '{userName}のいいところは自制心です。やばいと思ったときにしっかりと衝動を抑えられる{userName}が皆から評価されています。',
+  '{userName}のいいところは優しさです。{userName}の優しい雰囲気や立ち振る舞いに多くの人が癒やされています。'
 ];
 
 /**
@@ -79,14 +95,3 @@ function assessment(userName) {
   result = result.replaceAll('{userName}', userName);
   return result;
 }
-
-// テストコード
-console.assert(
-  assessment('太郎') ===
-    '太郎のいいところは決断力です。太郎がする決断にいつも助けられる人がいます。',
-  '診断結果の文言の特定の部分を名前に置き換える処理が正しくありません。'
-);
-console.assert(
-  assessment('太郎') === assessment('太郎'),
-  '入力が同じ名前なら同じ診断結果を出力する処理が正しくありません。'
-);
